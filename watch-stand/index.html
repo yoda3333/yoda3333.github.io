@@ -1,6 +1,7 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>手錶展示架 入門版 3D 檢視</title>
 <style>html,body{margin:0;height:100%;font-family:-apple-system,"PingFang TC",sans-serif;background:#f3f4f6;color:#111;overflow:hidden}
-#ui{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.92);padding:12px 14px;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.15);max-width:320px;font-size:13px;line-height:1.5}
+#ui{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.92);padding:10px 12px;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.15);max-width:320px;font-size:13px;line-height:1.5}
+@media (max-width:480px){#ui{right:12px;max-width:none} #hint{display:none} #legend{font-size:11px;padding:8px 10px}}
 #ui h1{font-size:15px;margin:0 0 6px} .row{margin:6px 0} button{font:inherit;padding:5px 10px;border-radius:999px;border:1px solid #1f4e79;background:#fff;color:#1f4e79;margin-right:4px;cursor:pointer}
 button.on{background:#1f4e79;color:#fff} input[type=range]{width:160px;vertical-align:middle} #hint{color:#666;font-size:12px}
 #legend{position:absolute;right:12px;bottom:12px;background:rgba(255,255,255,.92);padding:10px 12px;border-radius:10px;font-size:12px;line-height:1.6}
@@ -34,7 +35,7 @@ let cfg='L110', ex=0;
 function apply(){for(const m of meshes){const p=m.userData; m.visible=(p.cfg==='all'||p.cfg===cfg); m.position.set(p.ex[0]*ex,p.ex[1]*ex,p.ex[2]*ex);}}
 document.querySelectorAll('[data-cfg]').forEach(b=>b.onclick=()=>{cfg=b.dataset.cfg; document.querySelectorAll('[data-cfg]').forEach(x=>x.classList.toggle('on',x===b)); apply();});
 document.getElementById('ex').oninput=e=>{ex=+e.target.value; apply();};
-function view(x,y,z){cam.position.set(x,y,z); ctl.update();}
+function view(x,y,z){const k=innerWidth<innerHeight?1.6:1; cam.position.set(x*k,y*k,z*k); ctl.update();}
 document.getElementById('top').onclick=()=>view(20,0.01,400); document.getElementById('front').onclick=()=>view(20,-350,80); document.getElementById('side').onclick=()=>view(380,0,80); document.getElementById('iso').onclick=()=>view(280,-280,230);
 cam.up.set(0,0,1); view(280,-280,230); apply();
 addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix(); ren.setSize(innerWidth,innerHeight);});
